@@ -9,7 +9,7 @@ axios.defaults.params = {
   per_page: 40,
 };
 
-export async function searchImg(result) {
+export async function requestPixabayApi(result) {
   try {
     const response = await axios.get('', {
       params: { q: result },
