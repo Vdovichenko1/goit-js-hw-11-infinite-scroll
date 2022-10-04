@@ -77,3 +77,16 @@ input {
     color: white;
     cursor: pointer;
 }
+
+.is-hidden {
+    display: none;
+}
+
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+

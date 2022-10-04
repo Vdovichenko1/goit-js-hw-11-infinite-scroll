@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+let page = 1;
+let totalPages = 0;
+
 axios.defaults.baseURL = 'https://pixabay.com/api/';
 axios.defaults.params = {
   key: '30342028-2b0f208511d1ff42beafaf97c',
@@ -14,10 +17,18 @@ export async function requestPixabayApi(result) {
     const response = await axios.get('', {
       params: { q: result },
     });
-    console.log(response);
+    return response;
   } catch (error) {
     console.error(error);
   }
+}
+
+export function incrementPage() {
+  page += 1;
+}
+
+export function calculateTotalPage(newPage) {
+  totalPages += newPage;
 }
 
 // Список параметрів рядка запиту, які тобі обов'язково необхідно вказати:

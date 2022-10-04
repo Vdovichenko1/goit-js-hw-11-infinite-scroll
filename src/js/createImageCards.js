@@ -1,5 +1,5 @@
-export function createImageCards(hits) {
-  return hits
+export function createImageCards(img) {
+  return img
     .map(
       ({
         webformatURL,
@@ -9,7 +9,8 @@ export function createImageCards(hits) {
         views,
         comments,
         downloads,
-      }) => `<a class="photo-card" href="${largeImageURL}">
+      }) => {
+        return `<a class="photo-card" href="${largeImageURL}">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" />
   <div class="info">
     <p class="info-item">
@@ -25,7 +26,8 @@ export function createImageCards(hits) {
       <b>Downloads: ${downloads}</b>
     </p>
   </div>
-</a>`
+</a>`;
+      }
     )
     .join('');
 }
