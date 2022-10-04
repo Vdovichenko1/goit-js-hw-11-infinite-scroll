@@ -14,16 +14,16 @@ export function createImageCards(img) {
   <img src="${webformatURL}" alt="${tags}" loading="lazy" />
   <div class="info">
     <p class="info-item">
-      <b>Likes: ${likes}</b>
+      <b class='info-text'>Likes: </b> ${likes}
     </p>
     <p class="info-item">
-      <b>Views: ${views}</b>
+      <b class='info-text'>Views: </b> ${views}
     </p>
     <p class="info-item">
-      <b>Comments: ${comments}</b>
+      <b class='info-text'>Comments: </b> ${comments}
     </p>
     <p class="info-item">
-      <b>Downloads: ${downloads}</b>
+      <b class='info-text'>Downloads: </b> ${downloads}
     </p>
   </div>
 </a>`;

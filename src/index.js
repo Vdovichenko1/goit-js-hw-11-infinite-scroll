@@ -6,8 +6,8 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import { createImageCards } from './js/createImageCards.js';
 import {
   requestPixabayApi,
-  incrementPage,
   calculateTotalPage,
+  resetPage,
 } from './js/requestPixabayApi';
 
 // const jsonPixabayAPI = new JsonPixabayAPI();
@@ -23,9 +23,17 @@ const refs = {
 refs.form.addEventListener('submit', handleSubmit);
 refs.loadBtn.addEventListener('click', handleClick);
 
+const simple = new SimpleLightbox('.gallery a', {
+  captionDelay: 250,
+});
+
 function handleSubmit(e) {
   e.preventDefault();
+  refs.loadBtn.classList.add('is-hidden');
   searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
+  refs.div.innerHTML = '';
+  resetPage();
+
   if (searchInput.length === 0) {
     Notify.info('The field cannot be empty!');
     return;
@@ -38,30 +46,32 @@ function handleSubmit(e) {
         return Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.',
           {
-            position: 'center-top',
+            position: 'left-top',
           }
         );
       } else {
-        Notify.success(`Found ${totalHits}`, {
-          position: 'center-top',
-        });
+        Notify.success(`Hooray! We found ${totalHits} images.`);
       }
       refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
+      simple.refresh();
       refs.loadBtn.classList.remove('is-hidden');
+      if (calculateTotalPage >= totalHits) {
+        refs.loadBtn.classList.add('is-hidden');
+        Notify.info(
+          "We're sorry, but you've reached the end of search results.",
+          {
+            position: 'center-center',
+          }
+        );
+      }
     })
     .catch(error => {
-      Notify.failure(
-        'Sorry, there are no images matching your search query. Please try again.',
-        {
-          position: 'center-top',
-        }
-      );
-      return error;
+      console.log(error);
     });
   refs.div.innerHTML = '';
 }
 
-async function handleClick(e) {
+async function handleClick() {
   const {
     data: { hits, totalHits },
   } = await requestPixabayApi(searchInput);

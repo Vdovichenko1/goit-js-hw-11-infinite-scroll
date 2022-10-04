@@ -12,23 +12,27 @@ axios.defaults.params = {
   per_page: 40,
 };
 
-export async function requestPixabayApi(result) {
-  try {
-    const response = await axios.get('', {
-      params: { q: result },
+export function requestPixabayApi(result) {
+  return axios
+    .get('', {
+      params: { q: result, page: page },
+    })
+    .then(data => {
+      incrementPage();
+      return data;
     });
-    return response;
-  } catch (error) {
-    console.error(error);
-  }
 }
 
-export function incrementPage() {
+function incrementPage() {
   page += 1;
 }
 
 export function calculateTotalPage(newPage) {
   totalPages += newPage;
+}
+
+export function resetPage() {
+  page = 1;
 }
 
 // Список параметрів рядка запиту, які тобі обов'язково необхідно вказати:

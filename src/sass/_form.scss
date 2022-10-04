@@ -1,12 +1,7 @@
-// .example {
-//   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-//     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-//   line-height: 1.5;
-//   background-color: #fff;
-//   color: #2f2f37;
-//   max-width: 960px;
-//   padding: 16px;
-// }
+body {
+  line-height: 1.5;
+  background-color:cornsilk;
+}
 
 // .example code {
 //   font-family: monospace;
@@ -28,8 +23,11 @@
 // }
 
 
-
 .search-form {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 100%;
     height: 50px;
     background-color: rgb(73, 189, 243);
     border-radius: 5px;
@@ -39,6 +37,7 @@
     justify-content: center;
     align-items: center;
 }
+
 
 input {
     position: absolute;
@@ -55,7 +54,7 @@ input {
 .btn__search {
     position: relative;
     top: 0;
-    left: 126px;
+    left: 127px;
     height: 30px;
     border-radius: 4px;
     background-color: indigo;
@@ -64,13 +63,18 @@ input {
     cursor: pointer;
 }
 
+.btn__search:hover{
+    opacity: 0.7
+}
+
 .load-more {
     display: block;
     margin-left: auto;
     margin-right: auto;
     margin-top: 30px;
-    width: 100px;
-    height: 35px;
+    margin-bottom: 30px;
+    width: 200px;
+    height: 50px;
     border-radius: 4px;
     border-color: slategray;
     background-color: slategray;
@@ -84,9 +88,47 @@ input {
 
 
 .gallery {
+    margin-top: 60px;
     display: flex;
     flex-wrap: wrap;
 }
+.gallery__item {
+    text-decoration: none;
+}
 
+.photo_cards {
+    text-decoration: none;
+    
+}
 
+a {
+text-decoration: none;
+}
 
+img {
+    width: 300px;
+    height: 320px;
+    background-size: cover;
+    background-position: center;
+    display: block;
+    margin-left: 15px;
+    margin-top: 15px;
+    border-radius: 10px;
+}
+
+.info {
+    color: black;
+    margin: 10px;
+    font-family: Silkscreen;
+}
+
+.info-item {
+    text-align: center;
+    color:cadetblue;
+    margin-top: 4px;
+    margin-bottom: 3px;
+}
+
+.info-text {
+    color:rgb(73, 189, 243);
+}
