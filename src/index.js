@@ -4,7 +4,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { JsonPixabayAPI } from './js/JsonPixabayAPI.js';
 import { createImageCards } from './js/createImageCards.js';
-import { searchImg } from './js/requestPixabayApi';
+import { requestPixabayApi } from './js/requestPixabayApi';
 
 const jsonPixabayAPI = new JsonPixabayAPI();
 
@@ -20,15 +20,15 @@ function handleSubmit(e) {
   const searchInput = e.currentTarget.elements.searchQuery.value
     .trim()
     .toLowerCase();
-  searchImg(searchInput);
-  if (!searchInput) {
+  if (searchInput.length === 0) {
     Notify.info('The field cannot be empty!');
     return;
   }
-
-  createImageCards(searchInput)
-    .then(image => {
-      console.log(image);
+  requestPixabayApi(searchInput)
+    .then(({ data: { hits, totalHits } }) => {
+      if (hits.length === 0) {
+        return console.log('ERROR');
+      }
     })
     .catch(error => {
       Notify.failure(
@@ -37,11 +37,7 @@ function handleSubmit(e) {
           position: 'center-top',
         }
       );
-      return error;
     });
+  refs.div.innerHTML = '';
+  refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
 }
-
-// jsonPixabayAPI.getImage().then(data => {
-//   const markup = createImageCards(data);
-//   console.log(markup);
-// });

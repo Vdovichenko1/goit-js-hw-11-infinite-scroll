@@ -1,5 +1,5 @@
-export function createImageCards(images) {
-  return images
+export function createImageCards(hits) {
+  return hits
     .map(
       ({
         webformatURL,

@@ -6,14 +6,14 @@ axios.defaults.params = {
   image_type: 'photo',
   orientation: 'horizontal',
   safesearch: true,
+  per_page: 40,
 };
 
 export async function searchImg(result) {
   try {
-    const response = await axios.get('/', {
+    return (response = await axios.get('', {
       params: { q: result },
-    });
-    console.log(response);
+    }));
   } catch (error) {
     console.error(error);
   }
