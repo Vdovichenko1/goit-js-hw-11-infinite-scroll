@@ -11,9 +11,10 @@ axios.defaults.params = {
 
 export async function searchImg(result) {
   try {
-    return (response = await axios.get('', {
+    const response = await axios.get('', {
       params: { q: result },
-    }));
+    });
+    console.log(response);
   } catch (error) {
     console.error(error);
   }

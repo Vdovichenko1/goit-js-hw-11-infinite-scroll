@@ -37,7 +37,18 @@ function handleSubmit(e) {
           position: 'center-top',
         }
       );
+      refs.div.insertAdjacentHTML('beforeend', createImageCards);
     });
-  refs.div.innerHTML = '';
-  refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
+}
+
+// jsonPixabayAPI.getImage().then(data => {
+//   const markup = createImageCards(data);
+//   console.log(markup);
+// });
+// HTTP запит на сервер
+function renderCards({ data: { hits, totalHits } }) {
+  if (hits.length === 0) {
+    return console.log('ERROR');
+  }
+  refs.div.insertAdjacentHTML('beforeend', createImageCards);
 }
