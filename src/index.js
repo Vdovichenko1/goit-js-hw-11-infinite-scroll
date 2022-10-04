@@ -13,13 +13,16 @@ const refs = {
   form: document.querySelector('#search-form'),
 };
 
-refs.form.addEventListener('submit', onSubmit);
+refs.form.addEventListener('submit', handleSubmit);
 
-function onSubmit(e) {
+function handleSubmit(e) {
   e.preventDefault();
-  const searchInput = e.currentTarget.elements.searchQuery.value.trim();
+  const searchInput = e.currentTarget.elements.searchQuery.value
+    .trim()
+    .toLowerCase();
   searchImg(searchInput);
-  if (searchInput === '') {
+  if (!searchInput) {
+    Notify.info('The field cannot be empty!');
     return;
   }
 
