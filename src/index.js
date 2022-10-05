@@ -121,6 +121,11 @@ async function handleClick() {
 //   }
 // }
 
-window.addEventListener('scroll', () => {
-  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-});
+// window.addEventListener('scroll', () => {
+//   if (
+//     window.scrollY + window.innerHeight >=
+//     document.documentElement.scrollHeight
+//   ) {
+//     requestPixabayApi(searchInput);
+//   }
+// });
