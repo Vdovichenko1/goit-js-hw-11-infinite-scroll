@@ -83,8 +83,9 @@ async function handleClick() {
 
   try {
     refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
-    const total = calculateTotalPage(hits.length) - totalHits;
-    if (total < 40) {
+    const total = calculateTotalPage(hits.length);
+    console.log(total);
+    if (total >= totalHits) {
       refs.loadBtn.classList.add('is-hidden');
       Notify.info("We're sorry, but you've reached the end of search results.");
     }
@@ -120,6 +121,6 @@ async function handleClick() {
 //   }
 // }
 
-// window.addEventListener('scroll', () => {
-//   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-// });
+window.addEventListener('scroll', () => {
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+});
