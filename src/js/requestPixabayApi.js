@@ -12,15 +12,13 @@ axios.defaults.params = {
   per_page: 40,
 };
 
-export function requestPixabayApi(result) {
-  return axios
-    .get('', {
-      params: { q: result, page: page },
-    })
-    .then(data => {
-      incrementPage();
-      return data;
-    });
+export async function requestPixabayApi(result) {
+  const data = await axios.get('', {
+    params: { q: result, page: page },
+  });
+
+  incrementPage();
+  return data;
 }
 
 function incrementPage() {
@@ -28,7 +26,7 @@ function incrementPage() {
 }
 
 export function calculateTotalPage(newPage) {
-  totalPages += newPage;
+  return (totalPages += newPage);
 }
 
 export function resetPage() {

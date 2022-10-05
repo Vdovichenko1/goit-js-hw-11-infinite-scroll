@@ -8,14 +8,11 @@ import {
   calculateTotalPage,
   resetPage,
 } from './js/requestPixabayApi';
+import { getRefs } from './js/refs';
 
 let searchInput = '';
 
-const refs = {
-  div: document.querySelector('.gallery'),
-  form: document.querySelector('#search-form'),
-  loadBtn: document.querySelector('.load-more'),
-};
+const refs = getRefs();
 
 refs.form.addEventListener('submit', handleSubmit);
 refs.loadBtn.addEventListener('click', handleClick);
@@ -30,7 +27,6 @@ function handleSubmit(e) {
   searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
   refs.div.innerHTML = '';
   resetPage();
-
   if (searchInput.length === 0) {
     Notify.info('The field cannot be empty!');
     return;
@@ -46,6 +42,7 @@ function handleSubmit(e) {
         );
       } else {
         Notify.success(`Hooray! We found ${totalHits} images.`);
+        refs.loadBtn.classList.add('is-hidden');
       }
       refs.div.innerHTML = '';
       refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
@@ -83,7 +80,6 @@ async function handleClick() {
   } catch (error) {
     console.log(error);
     refs.div.innerHTML = '';
-    refs.loadBtn.classList.add('is-hidden');
   }
 }
 
@@ -100,3 +96,15 @@ async function handleClick() {
 // let infScroll = new InfiniteScroll('.container', {
 //   // options
 // });
+
+// window.addEventListener('scroll', onScroll);
+
+// function onScroll(e) {
+//   const documentRect = document.documentElement.getBoundingClientRect();
+//   // console.log('top', documentRect.top);
+//   // console.log('bottom', documentRect.bottom);
+//   if (documentRect.bottom < document.documentElement.clientHeight + 150) {
+//     incrementPage();
+//     requestPixabayApi(e.currentTarget.elements.searchQuery.value);
+//   }
+// }
