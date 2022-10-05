@@ -88,9 +88,11 @@ input {
 
 
 .gallery {
-    margin-top: 75px;
-    display: flex;
-    flex-wrap: wrap;
+    margin-top: 60px;
+        padding: 12px 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
 }
 .gallery__item {
     text-decoration: none;
@@ -161,3 +163,22 @@ img:hover {
     animation: appear .9s;
     -webkit-animation: appear .9s;
 }
+
+// .gallery { 
+    // margin-top: 60px;
+    // padding: 12px 0;
+    // display: flex;
+    // flex-wrap: wrap;
+    // justify-content: center;
+// }
+
+// img {
+//     padding: 10px;
+//     width: 300px;
+//     height: 200px;
+//     transition: transform 400ms easy-out;
+// }
+
+// img:hover {
+//     transition: scale(1.15);
+// }
