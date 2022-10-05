@@ -59,7 +59,7 @@ function handleSubmit(e) {
       refs.loadBtn.classList.remove('is-hidden');
       const total = calculateTotalPage(hits.length);
       if (total >= totalHits) {
-        // если изоб больше чем найдено забираем кнопку загр еще и выдаем сообщение
+        // если изоб больше чем найдено забираем кнопку загр еще и выдаем
         refs.loadBtn.classList.add('is-hidden');
         Notify.info(
           "We're sorry, but you've reached the end of search results.",
@@ -83,8 +83,8 @@ async function handleClick() {
 
   try {
     refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
-    const total = calculateTotalPage(hits.length);
-    if (total > totalHits) {
+    const total = calculateTotalPage(hits.length) - totalHits;
+    if (total < 40) {
       refs.loadBtn.classList.add('is-hidden');
       Notify.info("We're sorry, but you've reached the end of search results.");
     }
@@ -119,3 +119,7 @@ async function handleClick() {
 //     requestPixabayApi(e.currentTarget.elements.searchQuery.value);
 //   }
 // }
+
+// window.addEventListener('scroll', () => {
+//   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+// });
