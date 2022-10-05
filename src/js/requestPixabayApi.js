@@ -33,6 +33,10 @@ export function resetPage() {
   page = 1;
 }
 
+export function totalPagesNull() {
+  totalPages = 0;
+}
+
 // Список параметрів рядка запиту, які тобі обов'язково необхідно вказати:
 
 // key - твій унікальний ключ доступу до API.

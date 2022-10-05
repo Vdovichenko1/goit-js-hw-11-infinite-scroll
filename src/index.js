@@ -7,6 +7,7 @@ import {
   requestPixabayApi,
   calculateTotalPage,
   resetPage,
+  totalPagesNull,
 } from './js/requestPixabayApi';
 import { getRefs } from './js/refs';
 
@@ -32,6 +33,7 @@ function handleSubmit(e) {
   searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
   refs.div.innerHTML = '';
   resetPage();
+  totalPagesNull();
   // если ничего не введено
   if (searchInput.length === 0) {
     Notify.info('The field cannot be empty!');
@@ -57,16 +59,16 @@ function handleSubmit(e) {
       refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
       simple.refresh();
       refs.loadBtn.classList.remove('is-hidden');
-      const total = calculateTotalPage(hits.length);
-      if (total >= totalHits) {
+      if (calculateTotalPage(hits.length) >= totalHits) {
         // если изоб больше чем найдено забираем кнопку загр еще и выдаем
-        refs.loadBtn.classList.add('is-hidden');
+
         Notify.info(
           "We're sorry, but you've reached the end of search results.",
           {
             position: 'center-center',
           }
         );
+        refs.loadBtn.classList.add('is-hidden');
       }
     })
     .catch(error => {
@@ -83,9 +85,7 @@ async function handleClick() {
 
   try {
     refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
-    const total = calculateTotalPage(hits.length);
-    console.log(total);
-    if (total >= totalHits) {
+    if (calculateTotalPage(hits.length) >= totalHits) {
       refs.loadBtn.classList.add('is-hidden');
       Notify.info("We're sorry, but you've reached the end of search results.");
     }
