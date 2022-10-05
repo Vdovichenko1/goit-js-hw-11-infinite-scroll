@@ -112,6 +112,7 @@ img {
     display: block;
     margin-left: 15px;
     border-radius: 10px;
+    box-shadow: 3px 3px 3px 3px rgba(48, 48, 49, 0.2);
 }
 
 .photo_cards {
@@ -135,3 +136,28 @@ img {
     color:rgb(73, 189, 243);
 }
 
+
+@keyframes appear {
+    30% {
+        transform: scale(1.2, 1.2);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+@-webkit-keyframes appear {
+    30% {
+        -webkit-transform: scale(1.2, 1.2);
+    }
+
+    100% {
+        -webkit-transform: scale(1, 1);
+    }
+}
+
+img:hover {
+    animation: appear .9s;
+    -webkit-animation: appear .9s;
+}

@@ -1,16 +1,13 @@
 import { Notify } from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-
-// import { JsonPixabayAPI } from './js/JsonPixabayAPI';
+import InfiniteScroll from 'infinite-scroll';
 import { createImageCards } from './js/createImageCards.js';
 import {
   requestPixabayApi,
   calculateTotalPage,
   resetPage,
 } from './js/requestPixabayApi';
-
-// const jsonPixabayAPI = new JsonPixabayAPI();
 
 let searchInput = '';
 
@@ -50,10 +47,12 @@ function handleSubmit(e) {
       } else {
         Notify.success(`Hooray! We found ${totalHits} images.`);
       }
+      refs.div.innerHTML = '';
       refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
       simple.refresh();
       refs.loadBtn.classList.remove('is-hidden');
-      if (calculateTotalPage >= totalHits) {
+      const total = calculateTotalPage(hits.length);
+      if (total >= totalHits) {
         refs.loadBtn.classList.add('is-hidden');
         Notify.info(
           "We're sorry, but you've reached the end of search results.",
@@ -79,7 +78,7 @@ async function handleClick() {
     const total = calculateTotalPage(hits.length);
     if (total > totalHits) {
       refs.loadBtn.classList.add('is-hidden');
-      Notify.info('!!!!');
+      Notify.info("We're sorry, but you've reached the end of search results.");
     }
   } catch (error) {
     console.log(error);
@@ -87,3 +86,17 @@ async function handleClick() {
     refs.loadBtn.classList.add('is-hidden');
   }
 }
+
+// let elem = document.querySelector('.container');
+// let infScroll = new InfiniteScroll(elem, {
+//   // options
+//   path: '.pagination__next',
+//   append: '.post',
+//   history: false,
+// });
+
+// // element argument can be a selector string
+// //   for an individual element
+// let infScroll = new InfiniteScroll('.container', {
+//   // options
+// });
