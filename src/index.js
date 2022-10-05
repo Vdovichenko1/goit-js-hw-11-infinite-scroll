@@ -12,27 +12,35 @@ import { getRefs } from './js/refs';
 
 let searchInput = '';
 
+//переменные
 const refs = getRefs();
 
+// события
 refs.form.addEventListener('submit', handleSubmit);
 refs.loadBtn.addEventListener('click', handleClick);
 
+// библиотека галереи
 const simple = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
 });
 
+// функция для формы
 function handleSubmit(e) {
   e.preventDefault();
   refs.loadBtn.classList.add('is-hidden');
+  // значение введеное пользователем
   searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
   refs.div.innerHTML = '';
   resetPage();
+  // если ничего не введено
   if (searchInput.length === 0) {
     Notify.info('The field cannot be empty!');
     return;
   }
+  // с помощью аксиос выгружаем с бекенда данные
   requestPixabayApi(searchInput)
     .then(({ data: { hits, totalHits } }) => {
+      // если по запросу ничего не найдено
       if (totalHits === 0) {
         return Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.',
@@ -41,6 +49,7 @@ function handleSubmit(e) {
           }
         );
       } else {
+        // если найдено выдаем число найденных изоб
         Notify.success(`Hooray! We found ${totalHits} images.`);
         refs.loadBtn.classList.add('is-hidden');
       }
@@ -50,6 +59,7 @@ function handleSubmit(e) {
       refs.loadBtn.classList.remove('is-hidden');
       const total = calculateTotalPage(hits.length);
       if (total >= totalHits) {
+        // если изоб больше чем найдено забираем кнопку загр еще и выдаем сообщение
         refs.loadBtn.classList.add('is-hidden');
         Notify.info(
           "We're sorry, but you've reached the end of search results.",
@@ -65,6 +75,7 @@ function handleSubmit(e) {
   refs.div.innerHTML = '';
 }
 
+// функция для кнопки Загрузить еще
 async function handleClick() {
   const {
     data: { hits, totalHits },
