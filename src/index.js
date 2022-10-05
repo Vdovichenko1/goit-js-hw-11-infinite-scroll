@@ -38,8 +38,6 @@ function handleSubmit(e) {
     Notify.info('The field cannot be empty!');
     return;
   }
-  page = 1;
-  totalPage = 0;
   requestPixabayApi(searchInput)
     .then(({ data: { hits, totalHits } }) => {
       if (totalHits === 0) {
