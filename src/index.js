@@ -18,7 +18,7 @@ const refs = getRefs();
 
 // события
 refs.form.addEventListener('submit', handleSubmit);
-// refs.loadBtn.addEventListener('click', handleClick);
+refs.loadBtn.addEventListener('click', handleClick);
 
 // библиотека галереи
 const simple = new SimpleLightbox('.gallery a', {
@@ -82,6 +82,44 @@ function handleSubmit(e) {
 // функция для кнопки Загрузить еще
 // async function handleClick() {}
 
+// let elem = document.querySelector('.container');
+// let infScroll = new InfiniteScroll(elem, {
+//   // options
+//   path: '.pagination__next',
+//   append: '.post',
+//   history: false,
+// });
+
+// // element argument can be a selector string
+// //   for an individual element
+// let infScroll = new InfiniteScroll('.container', {
+//   // options
+// });
+
+// window.addEventListener('scroll', onScroll);
+
+// function onScroll(e) {
+//   const documentRect = document.documentElement.getBoundingClientRect();
+//   // console.log('top', documentRect.top);
+//   // console.log('bottom', documentRect.bottom);
+//   if (documentRect.bottom < document.documentElement.clientHeight + 150) {
+//     incrementPage();
+//     requestPixabayApi(e.currentTarget.elements.searchQuery.value);
+//   }
+// }
+
+// window.addEventListener('scroll', () => {
+//   if (
+//     window.scrollY + window.innerHeight >=
+//     document.documentElement.scrollHeight
+//   ) {
+//     requestPixabayApi(searchInput);
+//   }
+// });
+
+// var target = document.querySelector('#listItem');
+
+// observer.observe(target);
 const options = {
   root: null,
   rootMargin: '100px',
