@@ -11,49 +11,6 @@ import {
 } from './js/requestPixabayApi';
 import { getRefs } from './js/refs';
 
-// observer.observe(target);
-const options = {
-  root: null,
-  rootMargin: '100px',
-  threshold: 1.0,
-};
-// var callback = function (entries, observer) {
-//   /* Content excerpted, show below */
-// };
-
-const callback = async function (entries, observer) {
-  entries.forEach(async entry => {
-    if (entry.isIntersecting) {
-      console.log(entry.isIntersecting);
-      console.log(entry.intersectionRect);
-      incrementPage();
-      observer.unobserve(entry.target);
-      const {
-        data: { hits, totalHits },
-      } = await requestPixabayApi(searchInput);
-
-      try {
-        refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
-
-        if (calculateTotalPage(hits.length) >= totalHits) {
-          // refs.loadBtn.classList.add('is-hidden');
-          observer.unobserve(entry.target);
-          Notify.info(
-            "We're sorry, but you've reached the end of search results."
-          );
-          return;
-        }
-        observer.observe(document.querySelector('.photo-card:last-child'));
-      } catch (error) {
-        console.log(error);
-        refs.div.innerHTML = '';
-      }
-    }
-  });
-};
-
-const observer = new IntersectionObserver(callback, options);
-
 let searchInput = '';
 
 //переменные
@@ -61,7 +18,7 @@ const refs = getRefs();
 
 // события
 refs.form.addEventListener('submit', handleSubmit);
-refs.loadBtn.addEventListener('click', handleClick);
+// refs.loadBtn.addEventListener('click', handleClick);
 
 // библиотека галереи
 const simple = new SimpleLightbox('.gallery a', {
@@ -123,41 +80,40 @@ function handleSubmit(e) {
 }
 
 // функция для кнопки Загрузить еще
-async function handleClick() {}
+// async function handleClick() {}
 
-// let elem = document.querySelector('.container');
-// let infScroll = new InfiniteScroll(elem, {
-//   // options
-//   path: '.pagination__next',
-//   append: '.post',
-//   history: false,
-// });
+const options = {
+  root: null,
+  rootMargin: '100px',
+  threshold: 1.0,
+};
 
-// // element argument can be a selector string
-// //   for an individual element
-// let infScroll = new InfiniteScroll('.container', {
-//   // options
-// });
+const callback = async function (entries, observer) {
+  entries.forEach(async entry => {
+    if (entry.isIntersecting) {
+      incrementPage();
+      observer.unobserve(entry.target);
+      const {
+        data: { hits, totalHits },
+      } = await requestPixabayApi(searchInput);
 
-// window.addEventListener('scroll', onScroll);
+      try {
+        refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
 
-// function onScroll(e) {
-//   const documentRect = document.documentElement.getBoundingClientRect();
-//   // console.log('top', documentRect.top);
-//   // console.log('bottom', documentRect.bottom);
-//   if (documentRect.bottom < document.documentElement.clientHeight + 150) {
-//     incrementPage();
-//     requestPixabayApi(e.currentTarget.elements.searchQuery.value);
-//   }
-// }
+        if (calculateTotalPage(hits.length) >= totalHits) {
+          observer.unobserve(entry.target);
+          Notify.info(
+            "We're sorry, but you've reached the end of search results."
+          );
+          return;
+        }
+        observer.observe(document.querySelector('.photo-card:last-child'));
+      } catch (error) {
+        console.log(error);
+        refs.div.innerHTML = '';
+      }
+    }
+  });
+};
 
-// window.addEventListener('scroll', () => {
-//   if (
-//     window.scrollY + window.innerHeight >=
-//     document.documentElement.scrollHeight
-//   ) {
-//     requestPixabayApi(searchInput);
-//   }
-// });
-
-// var target = document.querySelector('#listItem');
+const observer = new IntersectionObserver(callback, options);
