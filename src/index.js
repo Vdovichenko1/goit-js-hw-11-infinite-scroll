@@ -1,15 +1,58 @@
 import { Notify } from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import InfiniteScroll from 'infinite-scroll';
 import { createImageCards } from './js/createImageCards.js';
 import {
   requestPixabayApi,
   calculateTotalPage,
   resetPage,
   totalPagesNull,
+  incrementPage,
 } from './js/requestPixabayApi';
 import { getRefs } from './js/refs';
+
+// observer.observe(target);
+var options = {
+  root: null,
+  rootMargin: '100px',
+  threshold: 1.0,
+};
+// var callback = function (entries, observer) {
+//   /* Content excerpted, show below */
+// };
+
+const callback = async function (entries, observer) {
+  entries.forEach(async entry => {
+    if (entry.isIntersecting) {
+      console.log(entry.isIntersecting);
+      console.log(entry.intersectionRect);
+      incrementPage();
+      observer.unobserve(entry.target);
+      const {
+        data: { hits, totalHits },
+      } = await requestPixabayApi(searchInput);
+
+      try {
+        refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
+
+        if (calculateTotalPage(hits.length) >= totalHits) {
+          // refs.loadBtn.classList.add('is-hidden');
+          observer.unobserve(entry.target);
+          Notify.info(
+            "We're sorry, but you've reached the end of search results."
+          );
+          return;
+        }
+        observer.observe(document.querySelector('.photo-card:last-child'));
+      } catch (error) {
+        console.log(error);
+        refs.div.innerHTML = '';
+      }
+    }
+  });
+};
+
+const observer = new IntersectionObserver(callback, options);
 
 let searchInput = '';
 
@@ -28,7 +71,7 @@ const simple = new SimpleLightbox('.gallery a', {
 // функция для формы
 function handleSubmit(e) {
   e.preventDefault();
-  refs.loadBtn.classList.add('is-hidden');
+  // refs.loadBtn.classList.add('is-hidden');
   // значение введеное пользователем
   searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
   refs.div.innerHTML = '';
@@ -50,15 +93,15 @@ function handleSubmit(e) {
             position: 'left-top',
           }
         );
-      } else {
-        // если найдено выдаем число найденных изоб
-        Notify.success(`Hooray! We found ${totalHits} images.`);
-        refs.loadBtn.classList.add('is-hidden');
       }
-      refs.div.innerHTML = '';
+      // если найдено выдаем число найденных изоб
+      Notify.success(`Hooray! We found ${totalHits} images.`);
+      // refs.loadBtn.classList.add('is-hidden');
+
       refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
+
       simple.refresh();
-      refs.loadBtn.classList.remove('is-hidden');
+      // refs.loadBtn.classList.remove('is-hidden');
       if (calculateTotalPage(hits.length) >= totalHits) {
         // если изоб больше чем найдено забираем кнопку загр еще и выдаем
 
@@ -69,7 +112,9 @@ function handleSubmit(e) {
           }
         );
         refs.loadBtn.classList.add('is-hidden');
+        return;
       }
+      observer.observe(document.querySelector('.photo-card:last-child'));
     })
     .catch(error => {
       console.log(error);
@@ -78,22 +123,7 @@ function handleSubmit(e) {
 }
 
 // функция для кнопки Загрузить еще
-async function handleClick() {
-  const {
-    data: { hits, totalHits },
-  } = await requestPixabayApi(searchInput);
-
-  try {
-    refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
-    if (calculateTotalPage(hits.length) >= totalHits) {
-      refs.loadBtn.classList.add('is-hidden');
-      Notify.info("We're sorry, but you've reached the end of search results.");
-    }
-  } catch (error) {
-    console.log(error);
-    refs.div.innerHTML = '';
-  }
-}
+async function handleClick() {}
 
 // let elem = document.querySelector('.container');
 // let infScroll = new InfiniteScroll(elem, {
@@ -129,3 +159,5 @@ async function handleClick() {
 //     requestPixabayApi(searchInput);
 //   }
 // });
+
+// var target = document.querySelector('#listItem');

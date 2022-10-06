@@ -17,11 +17,11 @@ export async function requestPixabayApi(result) {
     params: { q: result, page: page },
   });
 
-  incrementPage();
+  // incrementPage();
   return data;
 }
 
-function incrementPage() {
+export function incrementPage() {
   page += 1;
 }
 
