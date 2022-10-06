@@ -12,7 +12,7 @@ import {
 import { getRefs } from './js/refs';
 
 // observer.observe(target);
-var options = {
+const options = {
   root: null,
   rootMargin: '100px',
   threshold: 1.0,
