@@ -18,7 +18,7 @@ const refs = getRefs();
 
 // события
 refs.form.addEventListener('submit', handleSubmit);
-refs.loadBtn.addEventListener('click', handleClick);
+// refs.loadBtn.addEventListener('click', handleClick);
 
 // библиотека галереи
 const simple = new SimpleLightbox('.gallery a', {
