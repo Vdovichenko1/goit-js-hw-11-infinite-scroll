@@ -11,49 +11,6 @@ import {
 } from './js/requestPixabayApi';
 import { getRefs } from './js/refs';
 
-// observer.observe(target);
-const options = {
-  root: null,
-  rootMargin: '100px',
-  threshold: 1.0,
-};
-// var callback = function (entries, observer) {
-//   /* Content excerpted, show below */
-// };
-
-const callback = async function (entries, observer) {
-  entries.forEach(async entry => {
-    if (entry.isIntersecting) {
-      console.log(entry.isIntersecting);
-      console.log(entry.intersectionRect);
-      incrementPage();
-      observer.unobserve(entry.target);
-      const {
-        data: { hits, totalHits },
-      } = await requestPixabayApi(searchInput);
-
-      try {
-        refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
-
-        if (calculateTotalPage(hits.length) >= totalHits) {
-          // refs.loadBtn.classList.add('is-hidden');
-          observer.unobserve(entry.target);
-          Notify.info(
-            "We're sorry, but you've reached the end of search results."
-          );
-          return;
-        }
-        observer.observe(document.querySelector('.photo-card:last-child'));
-      } catch (error) {
-        console.log(error);
-        refs.div.innerHTML = '';
-      }
-    }
-  });
-};
-
-const observer = new IntersectionObserver(callback, options);
-
 let searchInput = '';
 
 //переменные
@@ -161,3 +118,45 @@ async function handleClick() {}
 // });
 
 // var target = document.querySelector('#listItem');
+// observer.observe(target);
+const options = {
+  root: null,
+  rootMargin: '100px',
+  threshold: 1.0,
+};
+// var callback = function (entries, observer) {
+//   /* Content excerpted, show below */
+// };
+
+const callback = async function (entries, observer) {
+  entries.forEach(async entry => {
+    if (entry.isIntersecting) {
+      console.log(entry.isIntersecting);
+      console.log(entry.intersectionRect);
+      incrementPage();
+      observer.unobserve(entry.target);
+      const {
+        data: { hits, totalHits },
+      } = await requestPixabayApi(searchInput);
+
+      try {
+        refs.div.insertAdjacentHTML('beforeend', createImageCards(hits));
+
+        if (calculateTotalPage(hits.length) >= totalHits) {
+          // refs.loadBtn.classList.add('is-hidden');
+          observer.unobserve(entry.target);
+          Notify.info(
+            "We're sorry, but you've reached the end of search results."
+          );
+          return;
+        }
+        observer.observe(document.querySelector('.photo-card:last-child'));
+      } catch (error) {
+        console.log(error);
+        refs.div.innerHTML = '';
+      }
+    }
+  });
+};
+
+const observer = new IntersectionObserver(callback, options);
